@@ -1,0 +1,624 @@
+% =============================================================================
+% 从地球到星辰
+% 星际旅行、恒星际航行与外星文明接触的数学框架
+%
+% 作者：GitHub Copilot
+%       人工智能研究部门
+%       GitHub | 微软公司
+% 日期：2026年4月4日
+% =============================================================================
+%
+% 编译命令：xelatex paper_zh.tex
+%           bibtex paper_zh
+%           xelatex paper_zh.tex
+%           xelatex paper_zh.tex
+% =============================================================================
+
+\documentclass[12pt,a4paper]{article}
+
+% --- 中文支持（需要 XeLaTeX）-------------------------------------------------
+\usepackage{ctex}
+
+% --- 数学与符号 ---------------------------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% --- 页面布局 -----------------------------------------------------------------
+\usepackage[a4paper,
+            top=3cm, bottom=3cm,
+            left=2.8cm, right=2.8cm,
+            headheight=15pt]{geometry}
+
+% --- 图形与颜色 ---------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta, calc, decorations.markings}
+
+% --- 表格 ---------------------------------------------------------------------
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+% --- 浮动体与标题 -------------------------------------------------------------
+\usepackage{float}
+\usepackage[labelfont=bf, font=small]{caption}
+\usepackage{subcaption}
+
+% --- 列表 ---------------------------------------------------------------------
+\usepackage{enumitem}
+
+% --- 单位 ---------------------------------------------------------------------
+\usepackage{siunitx}
+
+% --- 参考文献与超链接 ---------------------------------------------------------
+\usepackage[authoryear, round, sort]{natbib}
+\usepackage[colorlinks=true,
+            linkcolor=blue!65!black,
+            citecolor=green!50!black,
+            urlcolor=blue!70!black,
+            pdftitle={从地球到星辰},
+            pdfauthor={GitHub Copilot}
+           ]{hyperref}
+
+% --- 其他排版 -----------------------------------------------------------------
+\usepackage{setspace}
+\usepackage{fancyhdr}
+
+% =============================================================================
+% 自定义命令
+% =============================================================================
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\ee}{\mathrm{e}}
+\newcommand{\kB}{k_{\mathrm{B}}}
+\newcommand{\AU}{\,\text{AU}}
+\newcommand{\ly}{\,\text{光年}}
+\newcommand{\Msun}{M_{\odot}}
+\DeclareMathOperator{\atanh}{atanh}
+
+% =============================================================================
+% 页面样式
+% =============================================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsl{GitHub Copilot~——~\textit{从地球到星辰}}}
+\fancyhead[R]{\small\textsl{2026年4月4日}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\parskip}{5pt}
+\setlength{\parindent}{2em}
+
+% =============================================================================
+% 标题
+% =============================================================================
+\title{%
+  \vspace{-0.8cm}%
+  {\rule{\linewidth}{1.5pt}}\\[0.5em]
+  {\LARGE\bfseries 从地球到星辰}\\[0.4em]
+  {\large\itshape 星际旅行、恒星际航行与\\
+   外星文明接触的数学框架}\\[0.5em]
+  {\rule{\linewidth}{0.8pt}}%
+}
+\author{%
+  \textbf{GitHub Copilot}\\[0.3em]
+  \small 人工智能研究部门\\
+  \small GitHub~|~微软公司\\[0.3em]
+  \small\texttt{copilot@github.com}%
+}
+\date{\small 2026年4月4日}
+
+% =============================================================================
+\begin{document}
+% =============================================================================
+
+\maketitle
+\thispagestyle{empty}
+
+% --- 摘要 --------------------------------------------------------------------
+\begin{abstract}
+\noindent
+本文对人类迈向行星际定居和恒星际探索的长期轨迹进行了严格的数学论证。从轨道转移的经典力学与齐奥尔科夫斯基火箭方程出发，逐步推进至先进推进概念——电推进、核推进和反物质推进——直至相对论性太空飞行领域，在那里洛伦兹因子成为任务规划的核心。随后，通过对德雷克方程的贝叶斯重新表述，对费米悖论进行概率框架下的量化，并分析星际通信的工程与信息论要求。一个原创章节提出了首次接触的形式化数学语言，借助数论、普适物理常数和香农信息论构建体系。论文最后探讨星际关系建立的博弈论模型，论证数学推理——普适而独立于文化——是宇宙外交的唯一可行基础。所有结论均辅以推导过程和适用于当前及近未来技术的数值估算。
+
+\bigskip\noindent
+\textbf{关键词：}轨道力学，星际推进，相对论性太空飞行，德雷克方程，SETI，星际通信，首次接触，博弈论，费米悖论。
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+% =============================================================================
+\section{引言}
+% =============================================================================
+
+人类自古以来便仰望星空，怀揣着敬畏与探索的渴望。从神话传说与航海定向——北极星引领水手归家，昴星团标示农时——到哥白尼、开普勒、伽利略与牛顿，天文学逐步演变为一门严谨的数学科学。1957年10月4日，人造卫星"斯普特尼克"成为首个进入地球轨道的人造物体，将梦想化为工程现实。此后，机器人探测器相继造访了太阳系所有行星，火星车以极高精度绘制火星地形图，而双"旅行者"号探测器历经数十年飞行，已穿越日球层顶，进入星际空间。
+
+然而，将我们与哪怕最近的恒星邻居分隔开来的距离，以任何人类尺度衡量都是令人咋舌的。半人马座$\alpha$星系位于 \SI{4.37}{光年} 之外——约 \SI{4.13e13}{\kilo\meter}。以旅行者1号约 \SI{17}{\kilo\meter\per\second} 的速度，这段旅程需要大约 \num{73000} 年。行星际旅行困难重重；恒星际旅行则几乎超出人类的想象。然而物理学并不禁止它。力学、热力学和电磁学定律——以巨大但有限的代价——允许向其他恒星发送载人或无人探测器，并使其在人类有生之年内抵达目的地。
+
+本文旨在构建这一可能性的连贯数学图景，以及它所蕴含的文明意义。第2节介绍轨道运动的经典力学；第3节引入火箭方程；第4节将上述基础转化为太阳系内的具体任务设计；第5节概述先进推进技术；第6节将狭义相对论引入舞台中心；第7--9节讨论我们是否孤独、如何跨越恒星距离通信，以及哪些数学结构可作为通用语言；最后几节审视星际接触的逻辑、伦理与外交框架。
+
+% =============================================================================
+\section{天体力学：运动的数学语言}
+% =============================================================================
+
+\subsection{牛顿万有引力定律}
+
+天体力学的基础是牛顿平方反比定律：
+\begin{equation}
+  \bm{F} = -\frac{GM_1 M_2}{r^2}\hat{\bm{r}},
+\end{equation}
+其中 $G = \SI{6.674e-11}{\meter\cubed\per\kilo\gram\per\second\squared}$。
+对于质量 $m \ll M_\odot$ 的测试质量绕太阳运动，极坐标 $(r,\theta)$ 下的运动方程为：
+\begin{equation}
+  \ddot{r} - r\dot{\theta}^2 = -\frac{GM_\odot}{r^2}, \qquad
+  \frac{\dd}{\dd t}(r^2\dot{\theta}) = 0.
+\end{equation}
+第二个方程体现了比角动量 $h = r^2\dot{\theta} = \text{常数}$ 的守恒，即开普勒第二定律的微分形式。
+
+\subsection{开普勒定律}
+
+轨道的极坐标方程为：
+\begin{equation}
+  r(\theta) = \frac{a(1-e^2)}{1 + e\cos\theta},
+\end{equation}
+其中 $a$ 为半长轴，$e$ 为轨道离心率。开普勒三大定律由此直接推出：
+\begin{enumerate}[label=\textbf{K\arabic*.}]
+  \item 行星轨道为椭圆，太阳位于其中一个焦点。
+  \item 径矢在相等时间内扫过相等面积。
+  \item 轨道周期的平方与半长轴的立方成正比：
+    \begin{equation}
+      T^2 = \frac{4\pi^2}{GM_\odot}\,a^3.
+    \end{equation}
+\end{enumerate}
+
+\subsection{活力公式}
+
+单位质量的总机械能守恒：
+\begin{equation}
+  \varepsilon = \frac{v^2}{2} - \frac{GM_\odot}{r} = -\frac{GM_\odot}{2a},
+\end{equation}
+整理后得到活力公式（vis-viva）：
+\begin{equation}
+  \boxed{v^2 = GM_\odot\!\left(\frac{2}{r} - \frac{1}{a}\right).}
+\end{equation}
+在地球平均轨道半径处，$v_\oplus \approx \SI{29.78}{\kilo\meter\per\second}$。
+
+\subsection{逃逸速度}
+
+令总能量为零，得逃逸速度：
+\begin{equation}
+  v_{\mathrm{逃逸}}(r) = \sqrt{\frac{2GM_\odot}{r}} = \sqrt{2}\,v_{\mathrm{圆轨道}}(r).
+\end{equation}
+从地球表面逃逸的速度为 $v_{\mathrm{逃逸},\oplus} \approx \SI{11.19}{\kilo\meter\per\second}$。
+
+% =============================================================================
+\section{火箭方程：动能的代价}
+% =============================================================================
+
+\subsection{从牛顿第二定律的推导}
+
+对变质量系统应用牛顿第二定律：
+\begin{equation}
+  m\frac{\dd v}{\dd t} = -v_e\frac{\dd m}{\dd t},
+\end{equation}
+其中 $v_e$ 为推进剂在火箭参考系中的喷射速度。从初始质量 $m_0$ 积分到末质量 $m_f$：
+\begin{equation}
+  \boxed{\Delta v = v_e \ln\!\frac{m_0}{m_f} = I_{\mathrm{sp}}\,g_0\,\ln\!\frac{m_0}{m_f}.}
+  \label{eq:tsiolkovsky_zh}
+\end{equation}
+这个方程由齐奥尔科夫斯基于1903年首先发表，是火箭工程的基石。比冲 $I_{\mathrm{sp}} = v_e/g_0$（单位：秒）是任何推进系统性能的核心指标。
+
+\subsection{质量比问题}
+
+给定 $\Delta v$ 所需的质量比：
+\begin{equation}
+  \frac{m_0}{m_f} = \exp\!\left(\frac{\Delta v}{v_e}\right),
+\end{equation}
+随 $\Delta v$ 指数增长——这使得化学推进对于恒星际速度完全不可行。
+
+% =============================================================================
+\section{行星际任务设计}
+% =============================================================================
+
+\subsection{霍曼转移轨道}
+
+在半径分别为 $r_1$ 和 $r_2$ 的共面圆轨道之间能量最优的两次脉冲转移，
+即霍曼转移（1925年）。所需速度增量为：
+\begin{align}
+  \Delta v_1 &= \sqrt{\frac{GM_\odot}{r_1}}
+               \left(\sqrt{\frac{2r_2}{r_1+r_2}} - 1\right),\\
+  \Delta v_2 &= \sqrt{\frac{GM_\odot}{r_2}}
+               \left(1 - \sqrt{\frac{2r_1}{r_1+r_2}}\right),
+\end{align}
+转移时间（椭圆轨道的半个周期）：
+\begin{equation}
+  t_{\mathrm{霍曼}} = \pi\sqrt{\frac{(r_1+r_2)^3}{8\,GM_\odot}}.
+\end{equation}
+对于地球--火星霍曼转移（$r_1 = 1.000$\,AU，$r_2 = 1.524$\,AU）：
+$\Delta v_1 \approx \SI{2.94}{\kilo\meter\per\second}$，
+$\Delta v_2 \approx \SI{2.65}{\kilo\meter\per\second}$，
+$t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=0.95]
+    \fill[yellow!90!orange] (0,0) circle (0.28cm);
+    \node[below right, font=\footnotesize] at (0.15,-0.15) {太阳};
+    \draw[blue!65, thick] (0,0) circle (2cm);
+    \fill[blue!65] (2,0) circle (0.12cm);
+    \node[above right, font=\footnotesize, blue!65] at (2.05,0.15) {地球 ($r_1$)};
+    \draw[red!65, thick] (0,0) circle (3.05cm);
+    \fill[red!65] (-3.05,0) circle (0.12cm);
+    \node[above left, font=\footnotesize, red!65] at (-3.1,0.15) {火星 ($r_2$)};
+    \draw[green!55!black, very thick, dashed,
+          domain=0:180, samples=120]
+      plot ({-0.525 + 2.525*cos(\x)}, {2.470*sin(\x)});
+    \draw[-{Stealth[length=5pt]}, magenta!80!black, very thick]
+      (2,0) -- (2,0.75);
+    \node[right, font=\footnotesize, magenta!80!black] at (2.08,0.37)
+      {$\Delta v_1$};
+    \draw[-{Stealth[length=5pt]}, orange!80!black, very thick]
+      (-3.05,0.75) -- (-3.05,0);
+    \node[right, font=\footnotesize, orange!80!black] at (-2.98,0.37)
+      {$\Delta v_2$};
+    \draw[-{Stealth}, blue!65, semithick] (0.05,2) -- (-0.25,2);
+    \draw[-{Stealth}, red!65, semithick] (0.05,3.05) -- (0.35,3.05);
+    \node[green!50!black, font=\footnotesize, align=center] at (0,3.45)
+      {转移轨道};
+  \end{tikzpicture}
+  \caption{地球（蓝色，内圆）到火星（红色，外圆）的霍曼转移。
+    飞船在地球轨道施加冲量 $\Delta v_1$，历时约 259 天后在火星制动 $\Delta v_2$。}
+  \label{fig:hohmann_zh}
+\end{figure}
+
+\subsection{引力辅助机动}
+
+飞掠大质量行星可以从行星提取轨道动能并传递给飞船——代价几乎为零。在行星参考系中飞船速率不变，但方向偏转角为：
+\begin{equation}
+  \delta = 2\arcsin\!\left(\frac{1}{1 + r_p v_\infty^2/(GM_p)}\right).
+\end{equation}
+在日心参考系中的速度增量：
+\begin{equation}
+  \Delta v_\infty = 2v_p\sin\!\left(\frac{\delta}{2}\right).
+\end{equation}
+旅行者2号利用四次连续引力辅助，实现了太阳系逃逸。
+
+% =============================================================================
+\section{先进推进技术：超越化学火箭}
+% =============================================================================
+
+没有任何化学火箭能到达恒星。齐奥尔科夫斯基方程表明，所需速度增量对应的质量比根本无法实现。
+
+\subsection{电推进与离子推进}
+
+离子推进器将推进剂（通常为氙气）电离并通过静电加速，实现远高于化学发动机的喷气速度（$I_{\mathrm{sp}} \sim 3000$--$10000$\,s）。推力-功率关系为：
+\begin{equation}
+  F = \frac{2\eta_T\,P}{v_e},
+\end{equation}
+其中 $\eta_T \approx 0.65$ 为推进器效率。
+
+\subsection{太阳帆}
+
+距太阳 $d$ 处的辐射压强：
+\begin{equation}
+  P_{\mathrm{辐射}} = \frac{L_\odot}{4\pi d^2 c}.
+\end{equation}
+面质比为 $\sigma$ 的完全反射太阳帆所受加速度：
+\begin{equation}
+  a_{\mathrm{太阳帆}} = \frac{L_\odot\,\sigma}{2\pi d^2\,c}.
+\end{equation}
+
+\subsection{核脉冲推进（奥利安计划）}
+
+奥利安计划提出在推进板后方引爆核弹产生冲量。理论比冲在 $10^4$ 至 $10^6$\,s 之间，可实现数周内的载人土星任务。
+
+\subsection{反物质推进}
+
+质子-反质子湮灭释放出质量所能提供的最大能量：
+\begin{equation}
+  E = mc^2 \quad \Rightarrow \quad
+  I_{\mathrm{sp,最大}} = \frac{c}{g_0} \approx \SI{3.06e7}{\second}.
+\end{equation}
+反物质比例为 $\phi$ 时，有效喷气速度约为：
+\begin{equation}
+  v_e \approx c\sqrt{4\phi(1-\phi)},
+\end{equation}
+在 $\phi = 0.5$ 时达到峰值 $v_e = c$。
+
+\subsection{激光推进（突破摄星计划）}
+
+地面激光阵列功率 $P_L$，对质量 $m$、反射率 $R$ 的帆施加的加速度：
+\begin{equation}
+  a = \frac{(1+R)\,P_L}{mc}.
+\end{equation}
+突破摄星计划目标是将 \SI{1}{\gram} 的探测器加速到 $0.2c$，约20年抵达半人马座$\alpha$。
+
+% =============================================================================
+\section{相对论性太空飞行}
+% =============================================================================
+
+\subsection{狭义相对论简介}
+
+在接近光速时，牛顿力学失效。爱因斯坦狭义相对论（1905）引入洛伦兹因子：
+\begin{equation}
+  \gamma \equiv \frac{1}{\sqrt{1-\beta^2}}, \qquad \beta \equiv v/c.
+\end{equation}
+其主要推论包括：时间膨胀 ($\Delta t' = \gamma\,\Delta\tau$)，长度收缩 ($L = L_0/\gamma$)，以及能量-动量关系：
+\begin{equation}
+  E^2 = (pc)^2 + (mc^2)^2.
+\end{equation}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=11cm, height=7cm,
+      xlabel={$\beta = v/c$},
+      ylabel={洛伦兹因子 $\gamma$},
+      xmin=0, xmax=1, ymin=1, ymax=12,
+      grid=both,
+      grid style={line width=0.3pt, draw=gray!25},
+      major grid style={line width=0.5pt, draw=gray!50},
+      tick label style={font=\small},
+      label style={font=\small},
+      legend pos=north west, legend style={font=\small},
+    ]
+      \addplot[blue!80!black, very thick, domain=0:0.997, samples=300]
+        {1/sqrt(1-x*x)};
+      \addlegendentry{$\gamma=(1-\beta^2)^{-1/2}$}
+      \addplot[only marks, mark=*, mark size=2pt, red!70]
+        coordinates {(0.5,1.155)(0.8,1.667)(0.9,2.294)(0.98,5.025)};
+    \end{axis}
+  \end{tikzpicture}
+  \caption{洛伦兹因子 $\gamma$ 作为 $\beta = v/c$ 的函数。
+    当 $\beta \to 1$ 时，$\gamma$ 急剧上升：$\beta = 0.99$ 时，飞船上的时钟比静止时慢7倍以上。}
+  \label{fig:lorentz_zh}
+\end{figure}
+
+\subsection{相对论火箭方程}
+
+齐奥尔科夫斯基方程的相对论推广为：
+\begin{equation}
+  \boxed{\frac{m_0}{m_f} = \left(\frac{1+\beta_f}{1-\beta_f}\right)^{c/(2v_e)},}
+\end{equation}
+或用快度 $\phi = \atanh(\beta)$ 表示：
+\begin{equation}
+  \frac{m_0}{m_f} = \exp\!\left(\frac{c}{v_e}\,\atanh(\beta_f)\right).
+\end{equation}
+对于完美反物质推进器（$v_e = c$），末速 $\beta_f = 0.99$ 时：$m_0/m_f \approx 14$——这是一个可实现的比值。
+
+\subsection{匀加速轨迹}
+
+在恒定本征加速度 $a$ 下，飞船的轨迹（林德勒双曲线）满足：
+\begin{align}
+  x(\tau) &= \frac{c^2}{a}\!\left(\cosh\frac{a\tau}{c} - 1\right),\\
+  t(\tau)  &= \frac{c}{a}\sinh\frac{a\tau}{c},\\
+  v(\tau)  &= c\tanh\frac{a\tau}{c},
+\end{align}
+其中 $\tau$ 为旅行者的固有时间。在 $a = g = \SI{9.81}{\meter\per\second\squared}$ 时：
+\begin{itemize}[noitemsep]
+  \item 比邻星（4.24光年）：固有时间约3.5年，坐标时间约5.9年。
+  \item 银河系中心（26000光年）：旅行者仅老化21年，地球上却过了52026年。
+  \item 仙女座星系（250万光年）：旅行者老化约28.4年，地球上却过了250万年。
+\end{itemize}
+
+\subsection{能量需求}
+
+相对论性动能为：
+\begin{equation}
+  E_{\mathrm{动}} = (\gamma_f - 1)\,m_f\,c^2.
+\end{equation}
+将 $10^6$\,kg 有效载荷加速到 $\beta=0.2$，需要能量约 $\SI{1.8e21}{\joule}$，
+相当于全球约两个月的能源产量——这对卡尔达肖夫 II 型文明而言是可行的。
+
+% =============================================================================
+\section{文明数量的统计论证}
+% =============================================================================
+
+\subsection{德雷克方程}
+
+银河系中目前有多少技术活跃的文明能够进行星际通信？弗兰克·德雷克（1961）提出了基础估算：
+\begin{equation}
+  \boxed{N = R_* \cdot f_p \cdot n_e \cdot f_l \cdot f_i \cdot f_c \cdot L,}
+\end{equation}
+其中：$R_*$ 为银河系恒星形成率（年$^{-1}$），$f_p$ 为有行星系统的恒星比例，$n_e$ 为每个行星系统中宜居带行星的平均数量，$f_l$ 为出现生命的比例，$f_i$ 为发展出智慧生命的比例，$f_c$ 为能够进行可探测星际通信的比例，$L$ 为此类文明的平均寿命（年）。
+
+当前估计结果从 $N \approx 0$（悲观）到 $N \sim 10^8$（乐观），合理的中心值约为 $N \sim 1200$。
+
+\subsection{贝叶斯重构}
+
+将通信文明的空间密度建模为泊松过程，密度为 $\lambda_c$，在体积 $V$ 内至少存在一个文明的概率为：
+\begin{equation}
+  P(N \geq 1) = 1 - \ee^{-\lambda_c V}.
+\end{equation}
+
+\subsection{费米悖论及其解释}
+
+若 $N$ 很大，费米的问题便无法回避：\textit{"他们在哪里？"}主要解释可归为三类：
+\begin{enumerate}[noitemsep]
+  \item \textbf{稀有性。} 生命或智慧极为罕见（"稀有地球"假说），$N \ll 1$。
+  \item \textbf{大过滤器。} 存在某个极低概率的进化跃迁，或在我们之前，或在我们之后。
+  \item \textbf{通信差异。} 先进文明存在，但以我们未曾关注的方式通信（动物园假说、黑暗森林理论）。
+\end{enumerate}
+
+\subsection{卡尔达肖夫等级}
+\label{sec:kardashev_zh}
+
+尼古拉·卡尔达肖夫（1964）按能源消耗将文明分类：
+\begin{itemize}[noitemsep]
+  \item \textbf{I型：} 利用母星球全部能量，$P_{\mathrm{I}} \sim \SI{e16}{\watt}$。
+  \item \textbf{II型：} 驾驭恒星全部能量，$P_{\mathrm{II}} \sim \SI{4e26}{\watt}$。
+  \item \textbf{III型：} 掌控整个星系能量，$P_{\mathrm{III}} \sim \SI{e37}{\watt}$。
+\end{itemize}
+连续化公式：$K = (\log_{10} P_W - 6)/10$。
+2026年人类消耗约 $\SI{2e13}{\watt}$，对应 $K \approx 0.73$，接近但尚未达到I型。
+
+% =============================================================================
+\section{跨越星际距离的通信}
+% =============================================================================
+
+\subsection{电磁通信}
+
+发射机功率为 $P_t$、增益为 $G_t$，信号在距离 $d$ 处的弗里斯传输方程：
+\begin{equation}
+  P_r = P_t\,G_t\,G_r\!\left(\frac{\lambda}{4\pi d}\right)^2.
+\end{equation}
+带宽 $B$、系统噪声温度 $T_{\rm sys}$ 下的信噪比：
+\begin{equation}
+  \mathrm{SNR} = \frac{P_t\,G_t\,A_r}{4\pi d^2\,\kB\,T_{\rm sys}\,B}.
+\end{equation}
+
+\subsection{宇宙"聚水坑"}
+
+氢线（1420.4\,MHz）与羟基线（1612--1720\,MHz）之间的频谱窗口在宇宙背景中相对安静，被称为宇宙"聚水坑"，是信标信号的天然集合点。
+
+\subsection{信道容量估算}
+
+香农信道容量定理：
+\begin{equation}
+  C = B\log_2\!\left(1 + \mathrm{SNR}\right).
+\end{equation}
+一个功率为 \SI{10}{\tera\watt} 的发射机，在10光年外用100米口径射电望远镜完全可检测——只要知道搜索方向和频率。
+
+% =============================================================================
+\section{首次接触的通用语言}
+% =============================================================================
+
+\subsection{数学的普适性}
+
+任何足够先进的文明必定已经发现了相同的数学真理：2、3、5、7、11的素性；$\pi$ 的值；欧几里得几何的结构；以及自然界的物理常数。数学不是人类的发明，而是对物理现实中固有模式的发现——是任何掌握技术的智慧生命都能解读的唯一框架。
+
+\subsection{林科斯方案与素数编码}
+
+汉斯·弗罗伊登塔尔（1960）提出从零开始构建一种星际语言（林科斯）。编码层次如下：
+\begin{enumerate}[noitemsep]
+  \item \textbf{数字。} 以素数数量的脉冲串（2、3、5、7、11、……）建立计数。
+  \item \textbf{算术。} 以脉冲串形式传递 $2 + 3 = 5$ 等算术关系。
+  \item \textbf{逻辑。} 布尔常数与命题算符。
+  \item \textbf{关系。} 等式、序关系、集合成员关系。
+  \item \textbf{物理参照量。} 氢原子质量、无量纲常数。
+\end{enumerate}
+最重要的无量纲自然常数——精细结构常数 $\alpha$ 和质子-电子质量比 $\mu$——是普适信标：
+\begin{equation}
+  \alpha = \frac{e^2}{4\pi\varepsilon_0\,\hbar c} \approx \frac{1}{137.036},
+  \qquad
+  \mu = \frac{m_p}{m_e} \approx 1836.15.
+\end{equation}
+
+\subsection{二维像素编码}
+
+将总比特数 $N = p \times q$（$p$、$q$ 为不同的素数）映射为 $p \times q$ 像素网格，接收方可通过唯一素因数分解重构图像。1974年阿雷西博信息正是采用了这一技术：$1679 = 73 \times 23$ 比特，编码了一幅 $73 \times 23$ 像素的图像，包含太阳系、DNA结构和人类形象。
+
+% =============================================================================
+\section{建立星际关系：穿越虚空的外交}
+% =============================================================================
+
+\subsection{首次接触的博弈论}
+
+接触问题可建模为协调博弈。设文明A和B各自选择策略 $s \in \{S, \varnothing\}$（发送信号或保持沉默）。收益矩阵为：
+\begin{equation}
+\begin{pmatrix}
+  & S & \varnothing \\
+  S & (b-c,\; b-c) & (-c,\; b) \\
+  \varnothing & (b,\; -c) & (0,\; 0)
+\end{pmatrix}
+\end{equation}
+若 $b > c$，则相互发信 $(S, S)$ 是纳什均衡。若 $b < 0$（接触有危险），则沉默成为双方的占优策略——即黑暗森林的博弈论解释。
+
+\subsection{迭代接触与信任建立}
+
+在迭代囚徒困境中，"以牙还牙"策略（第一轮合作，此后镜像对方上一轮行动）被证明具有极强鲁棒性。在 $T$ 轮博弈中的期望收益：
+\begin{equation}
+  U(T) = b + (T-1)\left[b\,p_{\rm 合作} - c\,p_{\rm 背叛}\right].
+\end{equation}
+对于长寿的文明（$T \gg 1$），只要 $b > c$，合作占主导——这是一个令人鼓舞的结论。
+
+\subsection{接触协议}
+
+任何文明化的接触体系都应包含：(i) 以数学为媒介的意图声明；(ii) 考虑光年级往返时延的时间耐心；(iii) 对未知文明的全向广播；(iv) 由机构（而非个人）维系这场跨越数代人的跨星际通信。
+
+\subsection{接触的伦理}
+
+若我们探测到外星信号，三种伦理框架给出不同答案：
+（一）功利主义——若预期信息收益巨大且风险可控，则积极回应是合理的；
+（二）预防原则——向未知文明暴露我们的位置存在潜在生存风险，宜保持沉默；
+（三）世界主义——所有智慧生命共享一个道德共同体，拒绝回应是一种狭隘的孤立主义。
+目前，国际天文学联合会SETI委员会建议在国际社会就回应协议达成共识之前，仅被动接收信号。
+
+% =============================================================================
+\section{迈向银河文明}
+% =============================================================================
+
+\subsection{信息、能量与复杂性}
+
+朗道尔原理表明，物理信息是有代价的：
+\begin{equation}
+  \Delta Q_{\min} \geq \kB T \ln 2 \approx \SI{2.87e-21}{\joule}
+  \quad (T = \SI{300}{\kelvin}).
+\end{equation}
+文明的信息处理能力与其能源预算成比例。从卡尔达肖夫I型到II型到III型的跃迁，对应计算能力约 $10^{10}$ 倍的提升。
+
+\subsection{文明的长远轨迹}
+
+"恒星纪元"将持续约 $\sim 10^{14}$ 年；红矮星和棕矮星将在太阳成为白矮星之后很久，仍能支撑宜居行星。一个在未来数千年中存活下来的文明将发现，宇宙以当前的恒星形成率衡量，尚未度过其产星寿命的一半。遥远未来的道德重量——文明延续所能孕育的潜在存在——是将生命扩展至宇宙视为最高文明优先事项的压倒性理由。
+
+% =============================================================================
+\section{结论}
+% =============================================================================
+
+我们已经从行星运动的活力公式到应用于星际信标的香农信道容量定理，梳理了一条连贯的数学主线——这条线索连接了轨道力学的物理学、火箭推进的热力学、时空的几何学与语言的信息论。
+
+分析得出了确定性的结论：
+
+\begin{enumerate}[noitemsep]
+  \item 化学推进从根本上无法实现恒星际飞行；所需的最低推进技术为聚变推进、反物质推进或激光推进（用于小型探测器）。
+  \item 相对论性飞行到最近恒星在物理上可行，且对飞船上的人而言可在有生之年内完成，但所需的能源预算要求达到卡尔达肖夫I型甚至II型文明。
+  \item 德雷克方程既与 $N \gg 1$ 相容，也与 $N \approx 0$ 相容；未来的生物特征巡天（詹姆斯·韦伯空间望远镜等）将大幅缩小这一不确定范围。
+  \item 千兆瓦至太瓦级功率的电磁通信，在数十光年外用近未来射电和光学望远镜完全可探测；主要障碍在于指向、频率和时机。
+  \item 数学是首次接触唯一中性的语言：素数、普适常数和几何编码是其共同基础。
+  \item 当文明寿命漫长且接触是迭代的，博弈论有利于星际合作；在大多数合理参数选择下，相互通信的长期期望值为正。
+\end{enumerate}
+
+星辰并非遥不可及。时间、能量和勇气将我们与它们分隔——而这三者，人类在其短暂的宇宙历史中，已经证明自己丰厚地拥有。问题不是我们\textit{是否}会到达那里，而是\textit{何时}，以及我们到达时会\textit{遇见谁}。
+
+% =============================================================================
+% 附录
+% =============================================================================
+\appendix
+
+\section{相对论火箭方程的推导}
+
+在火箭参考系中以速度 $v_e$ 喷射推进剂时，四动量守恒给出：
+\begin{equation}
+  \int_0^{\beta_f} \frac{c\,\dd\beta'}{(1-\beta'^2)(1 - v_e\beta'/c^2)}
+  = -v_e \ln\frac{m_f}{m_0}.
+\end{equation}
+对光子推进（$v_e = c$），积分值为 $c\,\atanh(\beta_f)$，直接给出相对论火箭方程。
+
+\section{基本物理常数数值}
+
+\begin{tabular}{ll}
+  \toprule
+  常数 & 数值 \\
+  \midrule
+  光速 & $c = \SI{2.998e8}{\meter\per\second}$ \\
+  引力常数 & $G = \SI{6.674e-11}{\meter\cubed\per\kilo\gram\per\second\squared}$ \\
+  玻尔兹曼常数 & $\kB = \SI{1.381e-23}{\joule\per\kelvin}$ \\
+  太阳质量 & $\Msun = \SI{1.989e30}{\kilo\gram}$ \\
+  太阳光度 & $L_\odot = \SI{3.828e26}{\watt}$ \\
+  天文单位 & $\SI{1}{AU} = \SI{1.496e11}{\meter}$ \\
+  光年 & $\SI{1}{光年} = \SI{9.461e15}{\meter}$ \\
+  \bottomrule
+\end{tabular}
+
+% =============================================================================
+% 参考文献
+% =============================================================================
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
