@@ -26,41 +26,14 @@ jobs:
         uses: actions/checkout@v4
 
       # -----------------------------------------------------------------------
-      # 2. Install TeX Live and CJK fonts
-      #    Using the texlive-action for a faster, cached install instead of
-      #    apt, which would pull in the full ~4 GB texlive-full package.
+      # 2. Install TeX Live and CJK fonts via apt
       # -----------------------------------------------------------------------
-      - name: Install TeX Live packages
-        uses: zauguin/install-texlive@v3
-        with:
-          packages: >-
-            scheme-basic
-            collection-latexrecommended
-            collection-latexextra
-            collection-fontsrecommended
-            collection-fontsextra
-            collection-mathscience
-            collection-xetex
-            ctex
-            siunitx
-            pgfplots
-            booktabs
-            enumitem
-            fancyhdr
-            titlesec
-            natbib
-            microtype
-            lm
-            xcolor
-            pgf
-            pgfcore
-            caption
-            subcaption
-            multirow
-            mathtools
-
-      - name: Install CJK fonts (Noto CJK)
-        run: sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+      - name: Install TeX Live and CJK fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            texlive-full \
+            fonts-noto-cjk
 
       # -----------------------------------------------------------------------
       # 3. Compile English PDF (pdflatex × 3 + bibtex)
