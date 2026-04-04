@@ -1,0 +1,140 @@
+name: Build & Release PDFs
+
+# Triggers:
+#  - push of a version tag  →  builds PDFs and attaches them to a GitHub release
+#  - push to main/master    →  builds PDFs to verify they compile (no release)
+#  - pull_request           →  same compile check
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build-pdfs:
+    name: Compile LaTeX → PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------------------------------------------------
+      # 1. Checkout
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------------------------------------------------
+      # 2. Install TeX Live and CJK fonts
+      #    Using the texlive-action for a faster, cached install instead of
+      #    apt, which would pull in the full ~4 GB texlive-full package.
+      # -----------------------------------------------------------------------
+      - name: Install TeX Live packages
+        uses: zauguin/install-texlive@v3
+        with:
+          packages: >-
+            scheme-basic
+            collection-latexrecommended
+            collection-latexextra
+            collection-fontsrecommended
+            collection-fontsextra
+            collection-mathscience
+            collection-xetex
+            ctex
+            siunitx
+            pgfplots
+            booktabs
+            enumitem
+            fancyhdr
+            titlesec
+            natbib
+            microtype
+            lm
+            xcolor
+            pgf
+            pgfcore
+            caption
+            subcaption
+            multirow
+            mathtools
+
+      - name: Install CJK fonts (Noto CJK)
+        run: sudo apt-get install -y --no-install-recommends fonts-noto-cjk
+
+      # -----------------------------------------------------------------------
+      # 3. Compile English PDF (pdflatex × 3 + bibtex)
+      # -----------------------------------------------------------------------
+      - name: Compile paper_en.pdf
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error paper_en.tex
+          bibtex paper_en
+          pdflatex -interaction=nonstopmode -halt-on-error paper_en.tex
+          pdflatex -interaction=nonstopmode -halt-on-error paper_en.tex
+
+      # -----------------------------------------------------------------------
+      # 4. Compile Spanish PDF (pdflatex × 3 + bibtex)
+      # -----------------------------------------------------------------------
+      - name: Compile paper_es.pdf
+        run: |
+          pdflatex -interaction=nonstopmode -halt-on-error paper_es.tex
+          bibtex paper_es
+          pdflatex -interaction=nonstopmode -halt-on-error paper_es.tex
+          pdflatex -interaction=nonstopmode -halt-on-error paper_es.tex
+
+      # -----------------------------------------------------------------------
+      # 5. Compile Chinese PDF (xelatex × 3 + bibtex)
+      # -----------------------------------------------------------------------
+      - name: Compile paper_zh.pdf
+        run: |
+          xelatex -interaction=nonstopmode -halt-on-error paper_zh.tex
+          bibtex paper_zh
+          xelatex -interaction=nonstopmode -halt-on-error paper_zh.tex
+          xelatex -interaction=nonstopmode -halt-on-error paper_zh.tex
+
+      # -----------------------------------------------------------------------
+      # 6. Upload PDFs as workflow artifacts (available on every run)
+      # -----------------------------------------------------------------------
+      - name: Upload PDFs as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: papers-pdf
+          path: |
+            paper_en.pdf
+            paper_es.pdf
+            paper_zh.pdf
+          retention-days: 30
+
+      # -----------------------------------------------------------------------
+      # 7. Create GitHub Release and attach PDFs  (tag pushes only)
+      # -----------------------------------------------------------------------
+      - name: Create Release and upload PDFs
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "From Earth to the Stars — ${{ github.ref_name }}"
+          body: |
+            ## From Earth to the Stars · ${{ github.ref_name }}
+
+            Automatic PDF build triggered by tag `${{ github.ref_name }}`.
+
+            ### Downloads
+            | Language | File |
+            |----------|------|
+            | English  | `paper_en.pdf` |
+            | Spanish  | `paper_es.pdf` |
+            | Chinese  | `paper_zh.pdf` |
+
+            > Compiled with TeX Live on Ubuntu. English & Spanish via `pdflatex`;
+            > Chinese via `xelatex` + `ctex` + Noto CJK fonts.
+
+            ---
+            *Author: GitHub Copilot — April 4, 2026*
+          files: |
+            paper_en.pdf
+            paper_es.pdf
+            paper_zh.pdf
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
