@@ -210,7 +210,7 @@
   \boxed{\Delta v = v_e \ln\!\frac{m_0}{m_f} = I_{\mathrm{sp}}\,g_0\,\ln\!\frac{m_0}{m_f}.}
   \label{eq:tsiolkovsky_zh}
 \end{equation}
-这个方程由齐奥尔科夫斯基于1903年首先发表，是火箭工程的基石。比冲 $I_{\mathrm{sp}} = v_e/g_0$（单位：秒）是任何推进系统性能的核心指标。
+这个方程由齐奥尔科夫斯基于1903年首先发表，是火箭工程的基石~\citep{Tsiolkovsky1903}。比冲 $I_{\mathrm{sp}} = v_e/g_0$（单位：秒）是任何推进系统性能的核心指标。
 
 \subsection{质量比问题}
 
@@ -227,7 +227,7 @@
 \subsection{霍曼转移轨道}
 
 在半径分别为 $r_1$ 和 $r_2$ 的共面圆轨道之间能量最优的两次脉冲转移，
-即霍曼转移（1925年）。所需速度增量为：
+即霍曼转移（1925年）~\citep{Hohmann1925}。所需速度增量为：
 \begin{align}
   \Delta v_1 &= \sqrt{\frac{GM_\odot}{r_1}}
                \left(\sqrt{\frac{2r_2}{r_1+r_2}} - 1\right),\\
@@ -314,7 +314,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{核脉冲推进（奥利安计划）}
 
-奥利安计划提出在推进板后方引爆核弹产生冲量。理论比冲在 $10^4$ 至 $10^6$\,s 之间，可实现数周内的载人土星任务。
+奥利安计划提出在推进板后方引爆核弹产生冲量~\citep{Dyson1968}。理论比冲在 $10^4$ 至 $10^6$\,s 之间，可实现数周内的载人土星任务。
 
 \subsection{反物质推进}
 
@@ -343,7 +343,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{狭义相对论简介}
 
-在接近光速时，牛顿力学失效。爱因斯坦狭义相对论（1905）引入洛伦兹因子：
+在接近光速时，牛顿力学失效。爱因斯坦狭义相对论（1905）~\citep{Einstein1905}引入洛伦兹因子：
 \begin{equation}
   \gamma \equiv \frac{1}{\sqrt{1-\beta^2}}, \qquad \beta \equiv v/c.
 \end{equation}
@@ -381,7 +381,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{相对论火箭方程}
 
-齐奥尔科夫斯基方程的相对论推广为：
+齐奥尔科夫斯基方程的相对论推广~\citep{Ackeret1946}为：
 \begin{equation}
   \boxed{\frac{m_0}{m_f} = \left(\frac{1+\beta_f}{1-\beta_f}\right)^{c/(2v_e)},}
 \end{equation}
@@ -421,7 +421,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{德雷克方程}
 
-银河系中目前有多少技术活跃的文明能够进行星际通信？弗兰克·德雷克（1961）提出了基础估算：
+银河系中目前有多少技术活跃的文明能够进行星际通信？弗兰克·德雷克（1961）~\citep{Drake1961}提出了基础估算：
 \begin{equation}
   \boxed{N = R_* \cdot f_p \cdot n_e \cdot f_l \cdot f_i \cdot f_c \cdot L,}
 \end{equation}
@@ -438,11 +438,11 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{费米悖论及其解释}
 
-若 $N$ 很大，费米的问题便无法回避：\textit{"他们在哪里？"}主要解释可归为三类：
+若 $N$ 很大，费米的问题便无法回避~\citep{Hart1975}：\textit{"他们在哪里？"}主要解释可归为三类：
 \begin{enumerate}[noitemsep]
-  \item \textbf{稀有性。} 生命或智慧极为罕见（"稀有地球"假说），$N \ll 1$。
-  \item \textbf{大过滤器。} 存在某个极低概率的进化跃迁，或在我们之前，或在我们之后。
-  \item \textbf{通信差异。} 先进文明存在，但以我们未曾关注的方式通信（动物园假说、黑暗森林理论）。
+  \item \textbf{稀有性。} 生命或智慧极为罕见（"稀有地球"假说~\citep{WardBrownlee2000}），$N \ll 1$。
+  \item \textbf{大过滤器。} 存在某个极低概率的进化跃迁，或在我们之前，或在我们之后~\citep{Hanson1998}。
+  \item \textbf{通信差异。} 先进文明存在，但以我们未曾关注的方式通信（动物园假说、黑暗森林理论~\citep{Liu2008}）。
 \end{enumerate}
 
 \subsection{卡尔达肖夫等级}
@@ -454,7 +454,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
   \item \textbf{II型：} 驾驭恒星全部能量，$P_{\mathrm{II}} \sim \SI{4e26}{\watt}$。
   \item \textbf{III型：} 掌控整个星系能量，$P_{\mathrm{III}} \sim \SI{e37}{\watt}$。
 \end{itemize}
-连续化公式：$K = (\log_{10} P_W - 6)/10$。
+连续化公式~\citep{Sagan1973}：$K = (\log_{10} P_W - 6)/10$。
 2026年人类消耗约 $\SI{2e13}{\watt}$，对应 $K \approx 0.73$，接近但尚未达到I型。
 
 % =============================================================================
@@ -478,7 +478,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{信道容量估算}
 
-香农信道容量定理：
+香农信道容量定理~\citep{Shannon1948}：
 \begin{equation}
   C = B\log_2\!\left(1 + \mathrm{SNR}\right).
 \end{equation}
@@ -490,11 +490,11 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
 
 \subsection{数学的普适性}
 
-任何足够先进的文明必定已经发现了相同的数学真理：2、3、5、7、11的素性；$\pi$ 的值；欧几里得几何的结构；以及自然界的物理常数。数学不是人类的发明，而是对物理现实中固有模式的发现——是任何掌握技术的智慧生命都能解读的唯一框架。
+任何足够先进的文明必定已经发现了相同的数学真理：2、3、5、7、11的素性；$\pi$ 的值；欧几里得几何的结构；以及自然界的物理常数。数学不是人类的发明，而是对物理现实中固有模式的发现——是任何掌握技术的智慧生命都能解读的唯一框架~\citep{Penrose1989}。
 
 \subsection{林科斯方案与素数编码}
 
-汉斯·弗罗伊登塔尔（1960）提出从零开始构建一种星际语言（林科斯）。编码层次如下：
+汉斯·弗罗伊登塔尔（1960）~\citep{Freudenthal1960}提出从零开始构建一种星际语言（林科斯）。编码层次如下：
 \begin{enumerate}[noitemsep]
   \item \textbf{数字。} 以素数数量的脉冲串（2、3、5、7、11、……）建立计数。
   \item \textbf{算术。} 以脉冲串形式传递 $2 + 3 = 5$ 等算术关系。
@@ -527,7 +527,7 @@ $t_{\mathrm{霍曼}} \approx \SI{259}{\day}$。
   \varnothing & (b,\; -c) & (0,\; 0)
 \end{pmatrix}
 \end{equation}
-若 $b > c$，则相互发信 $(S, S)$ 是纳什均衡。若 $b < 0$（接触有危险），则沉默成为双方的占优策略——即黑暗森林的博弈论解释。
+若 $b > c$，则相互发信 $(S, S)$ 是纳什均衡。若 $b < 0$（接触有危险），则沉默成为双方的占优策略——即黑暗森林的博弈论解释~\citep{Liu2008}。
 
 \subsection{迭代接触与信任建立}
 
