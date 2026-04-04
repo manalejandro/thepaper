@@ -17,6 +17,8 @@ jobs:
   build-pdfs:
     name: Compile LaTeX → PDF
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # required to create releases and upload assets
 
     steps:
       # -----------------------------------------------------------------------
