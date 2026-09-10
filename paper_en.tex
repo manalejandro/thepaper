@@ -324,11 +324,11 @@ $v_e = \SI{4.41}{\kilo\meter\per\second}$).
     \toprule
     Mission & $\Delta v$ (km\,s$^{-1}$) & Mass ratio $m_0/m_f$ \\
     \midrule
-    Low-Earth orbit & 9.5  & 8.5   \\
+    Low-Earth orbit & 9.5  & 8.6   \\
     Trans-lunar injection & 12.5 & 17.0 \\
-    Trans-Mars injection & 11.6 & 13.7 \\
-    Trans-Jupiter (direct) & 20.0 & 99.5  \\
-    Escape Solar System from Earth & 16.6 & 44.7  \\
+    Trans-Mars injection & 11.6 & 13.9 \\
+    Trans-Jupiter (direct) & 20.0 & 93    \\
+    Escape Solar System from Earth & 16.6 & 43    \\
     $\Delta v = 1\,000$\,km\,s$^{-1}$ (0.33\% of $c$) &
     \num{1000} & $\sim 10^{98}$ \\
     \bottomrule
@@ -503,7 +503,7 @@ mass $m$, the characteristic acceleration is
     = \frac{L_\odot \sigma}{2\pi d^2 c},
   \label{eq:sail_acc}
 \end{equation}
-where $\sigma = A/m$ is the sail`s area-to-mass ratio. Contemporary
+where $\sigma = A/m$ is the sail's area-to-mass ratio. Contemporary
 ultra-thin Mylar sails achieve $\sigma \sim \SI{100}{\meter\squared\per\kilo\gram}$.
 
 \subsection{Nuclear Thermal Propulsion}
@@ -552,8 +552,9 @@ of order $\num{e15}$\,USD per gram.
 
 \subsection{Laser-Sail Propulsion (Breakthrough Starshot)}
 
-For the smallest probes, a ground-based phased laser array of power $P_L$
-can accelerate a photon sail of mass $m$ and reflectivity $R$ to
+For the smallest probes, \citet{Forward1984} showed that a ground-based phased
+laser array of power $P_L$ can accelerate a photon sail of mass $m$ and
+reflectivity $R$ to
 \begin{equation}
   a = \frac{(1+R)\,P_L}{mc},
   \label{eq:laser_accel}
@@ -565,6 +566,35 @@ giving a final velocity (assuming acceleration over a distance $\ell$)
 The Breakthrough Starshot initiative targets $v_f \approx 0.2c$ for a
 \SI{1}{\gram} sail with $P_L = \SI{100}{\giga\watt}$, reaching Alpha
 Centauri in about 20 years.
+
+\subsection{Interstellar Ramjets}
+
+\citet{Bussard1960} observed that a fast spacecraft need not carry all of its
+propellant: it could gather it from the interstellar medium itself. A magnetic
+\emph{ram scoop} would ionise and funnel ambient hydrogen into a fusion
+chamber, so that the vehicle is continuously refuelled. The propellant mass
+flux intercepted at speed $v$ is
+\begin{equation}
+  \dot m = \rho\,A\,v,
+  \label{eq:ram_flux}
+\end{equation}
+where $\rho$ is the ambient density and $A$ the effective scoop area. The
+thrust available is bounded by the fusion power released,
+$\dot m\,\varepsilon c^2$, and by the drag of the collected gas, so the
+terminal speed obeys
+\begin{equation}
+  v_{\max} \approx c\sqrt{2\,\eta_f\,\varepsilon},
+  \label{eq:ram_vmax}
+\end{equation}
+where $\varepsilon$ is the fraction of rest mass converted to energy and
+$\eta_f$ the efficiency of conversion into directed thrust. For the
+proton--proton chain ($\varepsilon \approx 0.007$) and ideal coupling
+($\eta_f = 1$), $v_{\max} \approx 0.12c$. The concept is elegant, but the
+engineering is formidable: the scoop diameter must be of order thousands of
+kilometres to intercept a useful mass flux, and at low speeds the
+bremsstrahlung losses of the collected plasma exceed the fusion gain. The
+ramjet is thus best regarded as a long-term aspiration rather than a near-term
+design.
 
 \begin{table}[ht]
   \centering
@@ -680,40 +710,49 @@ frame is a \emph{Rindler hyperbola}:
   v(\tau)  &= c\tanh\frac{a\tau}{c},
     \label{eq:rindler_v}
 \end{align}
-where $\tau$ is the traveller's proper time. The round-trip proper time to a
-destination at coordinate distance $D$ (with phases: accelerate, decelerate,
-accelerate back, decelerate to rest) is
+where $\tau$ is the traveller's proper time. For a one-way voyage of coordinate
+distance $D$ (accelerating for the first half, decelerating for the second),
+the elapsed proper time is
 \begin{equation}
-  \tau_{\mathrm{RT}} = 4\,\frac{c}{a}\,\cosh^{-1}\!\!\left(\frac{aD}{2c^2}+1\right).
-  \label{eq:rt_proper}
+  \tau = 2\,\frac{c}{a}\,\cosh^{-1}\!\!\left(\frac{aD}{2c^2}+1\right),
+  \label{eq:oneway_proper}
 \end{equation}
-For $a = g = \SI{9.81}{\meter\per\second\squared}$ (comfortable 1-\textit{g}
-acceleration):
+while the coordinate time measured on Earth is
+\begin{equation}
+  t = 2\,\frac{c}{a}\sinh\!\left(\frac{a\tau}{2c}\right)
+    = 2\,\frac{c}{a}\sqrt{\left(\frac{aD}{2c^{2}}+1\right)^{2}-1}.
+  \label{eq:oneway_coord}
+\end{equation}
+A round trip simply doubles both. For $a = g = \SI{9.81}{\meter\per\second\squared}$
+(comfortable 1-\textit{g} acceleration):
 
 \begin{table}[ht]
   \centering
-  \caption{Round-trip proper times for 1-$g$ continuous acceleration to selected
-   destinations ($a=g$). Coordinate time $t_{\mathrm{RT}}$ is measured by a
-   stationary observer; $\tau_{\mathrm{RT}}$ by the traveller.}
+  \caption{One-way travel times for 1-$g$ continuous acceleration to selected
+   destinations ($a=g$). Coordinate time $t$ is measured by a stationary
+   observer on Earth; $\tau$ is the traveller's proper time. Round trips are
+   twice these values.}
   \label{tab:rel_trips}
   \begin{tabularx}{\textwidth}{X r r r}
     \toprule
-    Destination & $D$ & $t_{\mathrm{RT}}$ (coord.) & $\tau_{\mathrm{RT}}$ (proper) \\
+    Destination & $D$ & $t$ (coord.) & $\tau$ (proper) \\
     \midrule
-    Mars (mean)           & \SI{0.52}{\AU}  & 63 days    & 63 days      \\
-    Jupiter               & \SI{5.2}{\AU}   & 1.5 years  & 1.5 years    \\
-    Pluto                 & \SI{39.5}{\AU}  & 4.4 years  & 4.3 years    \\
-    Proxima Centauri      & \SI{4.24}{\ly}  & 5.9 years  & 3.5 years    \\
-    Galactic Centre       & \SI{26000}{\ly} & 52\,026 years & 21.0 years\\
-    Andromeda Galaxy      & \SI{2.5e6}{\ly} & 2.5 Myr    & 28.4 years   \\
+    Mars (mean)           & \SI{0.524}{\AU} & 2.1 days      & 2.1 days       \\
+    Jupiter               & \SI{5.2}{\AU}   & 6.5 days      & 6.5 days       \\
+    Pluto                 & \SI{39.5}{\AU}  & 18.0 days     & 18.0 days      \\
+    Proxima Centauri      & \SI{4.24}{\ly}  & 5.9 years     & 3.5 years      \\
+    Galactic Centre       & \SI{26000}{\ly} & 26\,000 years & 19.8 years     \\
+    Andromeda Galaxy      & \SI{2.5e6}{\ly} & 2.5 Myr       & 28.6 years     \\
     \bottomrule
   \end{tabularx}
 \end{table}
 
-The time dilation effect is profound: a crew travelling to Proxima Centauri
-and back at 1~$g$ ages only 7 years, while 12 years pass on Earth. Travel
-to the Galactic Centre ages the crew only 42 years---but 52\,000 years elapse
-on Earth.
+The time-dilation effect is profound. A one-way crewed voyage to Proxima
+Centauri at 1~$g$ lasts only 3.5 years of ship time, while 5.9 years elapse on
+Earth; a round trip ages the crew 7.1 years and the Earth 11.7 years. Travel to
+the Galactic Centre would age the crew only 39.5 years---but more than 52\,000
+years would elapse at home. The universe is not merely navigable; at 1~$g$ it
+is, for the traveller, surprisingly small.
 
 \subsection{Energy Requirements}
 
@@ -724,17 +763,40 @@ speeds, the total energy required is
   E_{\mathrm{kin}} = (\gamma_f - 1)\,m_f\,c^2.
   \label{eq:kinetic_rel}
 \end{equation}
-To accelerate a 1000-ton payload ($m_f = \SI{e6}{\kilo\gram}$) to $\beta=0.2$
-requires
+To accelerate a 1000-tonne payload ($m_f = \SI{e6}{\kilo\gram}$) to
+$\beta = 0.2$, with $\gamma_f = (1-0.04)^{-1/2} \approx 1.0206$,
 \begin{equation*}
-  E = \left(\frac{1}{\sqrt{1-0.04}} - 1\right)\times \SI{e6}{}\times(\SI{3e8}{})^2
-    \approx \SI{1.8e21}{\joule} \approx \SI{500}{\tera\watt\hour} \cdot
-    \frac{1\,\mathrm{yr}}{8760\,\mathrm{h}},
+  E = 0.0206 \times 10^6 \times (2.998\times10^{8})^2
+    \approx \SI{1.85e21}{\joule}
+    \approx \SI{5.1e5}{\tera\watt\hour}.
 \end{equation*}
-comparable to roughly two months of total current global energy production.
-Advanced fusion or antimatter reactors capable of sustained power outputs of
-$10^{17}$--$10^{19}$\,W would be required---well within the range of a
-Kardashev Type~II civilization (see Section~\ref{sec:kardashev}).
+Total global primary-energy consumption is roughly \SI{6.2e20}{\joule} per
+year, so accelerating a single 1000-tonne payload to $0.2c$ would consume
+approximately three years of present-day world energy supply. Advanced fusion
+or antimatter reactors capable of sustained power outputs of
+$10^{17}$--$10^{19}$\,W---well within the range of a Kardashev Type~II
+civilization (Section~\ref{sec:kardashev})---would be required.
+
+\subsection{Interstellar Dust, Radiation, and Shielding}
+
+At $\beta \sim 0.2$--$0.9$ the interstellar medium---though a better vacuum
+than any terrestrial laboratory can produce, with a mean density of order one
+atom per cubic centimetre---becomes an engineering hazard. A dust grain of rest
+mass $m_g$ struck head-on releases a kinetic energy
+\begin{equation}
+  E_g = (\gamma - 1)\,m_g\,c^2,
+  \label{eq:dust_impact}
+\end{equation}
+so that a \SI{e-12}{\kilo\gram} grain (a micrometre-scale particle) delivers
+about \SI{1.9e3}{\joule} at $\beta = 0.2$ and \SI{1.2e5}{\joule} at
+$\beta = 0.9$---comparable to the muzzle energy of a heavy artillery shell.
+The spatial density of grains is low, but the swept volume over a voyage of
+light-years is so large that a thin forward shield, or a magnetic/plasma
+deflector, is mandatory. Interstellar hydrogen itself causes continuous
+erosion and, at the highest speeds, penetrating radiation from spallation
+products. Any credible design for a relativistic starship must therefore treat
+shielding and collision avoidance as first-order constraints rather than
+afterthoughts \citep{Dyson1968}.
 
 % =============================================================================
 \section{The Population of Civilizations: A Statistical Argument}

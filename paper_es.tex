@@ -272,12 +272,41 @@ angular de la ingeniería de cohetes~\citep{Tsiolkovsky1903}. El impulso especí
 
 \subsection{El Problema de la Fracción de Masa}
 
-La relación de masa necesaria para un $\Delta v$ dado:
+La relación de masa necesaria para un $\Delta v$ dado se obtiene directamente
+de la ecuación~\eqref{eq:tsiolkovsky_es}:
 \begin{equation}
-  \frac{m_0}{m_f} = \exp\!\left(\frac{\Delta v}{v_e}\right),
+  \frac{m_0}{m_f} = \exp\!\left(\frac{\Delta v}{v_e}\right).
 \end{equation}
-crece exponencialmente con $\Delta v$, lo que hace que la propulsión química
-sea categoricamente inviable para viajes interestelares.
+Esta dependencia exponencial es devastadora para misiones de $\Delta v$
+elevado. La tabla~\ref{tab:dv_es} ilustra el problema para destinos
+representativos con un motor de hidrógeno/oxígeno
+($I_{\mathrm{sp}} = \SI{450}{\second}$,
+$v_e = \SI{4{,}41}{\kilo\meter\per\second}$).
+
+\begin{table}[h]
+  \centering
+  \caption{Presupuestos de velocidad y relaciones de masa para misiones
+           representativas con propulsión LOX/LH$_2$
+           ($I_{\mathrm{sp}} = 450$\,s).}
+  \label{tab:dv_es}
+  \begin{tabularx}{\textwidth}{Xrr}
+    \toprule
+    Misión & $\Delta v$ (km\,s$^{-1}$) & Relación de masa $m_0/m_f$ \\
+    \midrule
+    Órbita terrestre baja & 9{,}5  & 8{,}6   \\
+    Inyección translunar & 12{,}5 & 17{,}0 \\
+    Inyección transmarciana & 11{,}6 & 13{,}9 \\
+    Transjúpiter (directo) & 20{,}0 & 93    \\
+    Escape del Sistema Solar desde la Tierra & 16{,}6 & 43    \\
+    $\Delta v = 1\,000$\,km\,s$^{-1}$ (0{,}33\,\% de $c$) &
+    \num{1000} & $\sim 10^{98}$ \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+La última fila demuestra sin ambigüedad que la propulsión química no puede
+alcanzar velocidades interestelares a partir de la sola ecuación del cohete;
+son obligatorios paradigmas de propulsión alternativos.
 
 % =============================================================================
 \section{Diseño de Misiones Interplanetarias}
@@ -352,6 +381,32 @@ El cambio de velocidad en el sistema heliocéntrico es:
 La Voyager~2 utilizó cuatro asistencias gravitacionales consecutivas para
 alcanzar la velocidad de escape del Sistema Solar.
 
+\subsection{Transferencias de Baja Energía y la Autopista Interplanetaria}
+
+Más allá de Hohmann, \citet{Belbruno1987} demostró que las variedades
+invariantes asociadas a los puntos de libración $L_1$ y $L_2$ de los sistemas
+de tres cuerpos Sol--Tierra y Sol--Luna tejen una red de trayectorias de baja
+energía por todo el Sistema Solar. Una transferencia a lo largo de estas
+variedades puede reducir drásticamente el $\Delta v$ a cambio de un tiempo de
+tránsito mayor, explotando la sensibilidad a las condiciones iniciales propia
+del problema de tres cuerpos. Las ecuaciones que gobiernan el movimiento son
+las del problema circular restringido de tres cuerpos:
+\begin{align}
+  \ddot{x} - 2\dot{y} &= x - \frac{(1-\mu)(x+\mu)}{r_1^3}
+    - \frac{\mu(x-1+\mu)}{r_2^3}, \label{eq:cr3bp_x_es}\\
+  \ddot{y} + 2\dot{x} &= y - \frac{(1-\mu)\,y}{r_1^3}
+    - \frac{\mu\,y}{r_2^3}, \label{eq:cr3bp_y_es}
+\end{align}
+donde $\mu = M_2/(M_1+M_2)$ es el parámetro de masa y $r_{1,2}$ son las
+distancias a cada cuerpo primario. La integral de Jacobi
+\begin{equation}
+  C_J = x^2 + y^2 + \frac{2(1-\mu)}{r_1} + \frac{2\mu}{r_2}
+        - \dot{x}^2 - \dot{y}^2,
+  \label{eq:jacobi_es}
+\end{equation}
+única cantidad conservada del problema, define las \emph{superficies de
+velocidad nula} que restringen las trayectorias posibles.
+
 % =============================================================================
 \section{Propulsión Avanzada: Más Allá del Cohete Químico}
 % =============================================================================
@@ -382,6 +437,18 @@ La aceleración resultante para una vela perfectamente reflectante de relación
 \begin{equation}
   a_{\mathrm{vela}} = \frac{L_\odot\,\sigma}{2\pi d^2\,c}.
 \end{equation}
+Las velas de Mylar ultrafinas actuales alcanzan
+$\sigma \sim \SI{100}{\meter\squared\per\kilo\gram}$.
+
+\subsection{Propulsión Térmica Nuclear}
+
+Un cohete térmico nuclear calienta el propelente (hidrógeno) en un reactor
+hasta $\sim\SI{2700}{\kelvin}$, alcanzando
+$I_{\mathrm{sp}} \approx \SI{800}{}$--$\SI{1000}{\second}$ --- aproximadamente
+el doble que los mejores motores químicos. Las pruebas en tierra del programa
+NERVA en la década de 1960 demostraron esta tecnología. El aumento de
+$I_{\mathrm{sp}}$ reduce a la mitad la masa de propelente necesaria para un
+tránsito a Marte.
 
 \subsection{Propulsión Nuclear de Pulsos (Proyecto Orion)}
 
@@ -412,6 +479,58 @@ reflectividad $R$:
 \end{equation}
 Breakthrough Starshot busca velocidades finales de $v_f \approx 0{,}2c$ para
 una sonda de \SI{1}{\gram}, llegando a Alfa Centauri en $\sim 20$ años.
+
+\subsection{Estatorreactores Interestelares}
+
+\citet{Bussard1960} observó que una nave rápida no necesita transportar todo su
+propelente: podría recogerlo del propio medio interestelar. Un
+\emph{colector magnético} ionizaría y canalizaría el hidrógeno ambiental hacia
+una cámara de fusión, de modo que el vehículo se reabastecería continuamente.
+El flujo de masa interceptado a velocidad $v$ es
+\begin{equation}
+  \dot m = \rho\,A\,v,
+  \label{eq:ram_flux_es}
+\end{equation}
+donde $\rho$ es la densidad ambiental y $A$ el área efectiva del colector. El
+empuje disponible está acotado por la potencia de fusión liberada,
+$\dot m\,\varepsilon c^2$, y por el frenado del gas recogido, de modo que la
+velocidad terminal obedece
+\begin{equation}
+  v_{\max} \approx c\sqrt{2\,\eta_f\,\varepsilon},
+  \label{eq:ram_vmax_es}
+\end{equation}
+con $\varepsilon$ la fracción de masa en reposo convertida en energía y
+$\eta_f$ la eficiencia de conversión en empuje dirigido. Para la cadena
+protón--protón ($\varepsilon \approx 0{,}007$) y acoplamiento ideal
+($\eta_f = 1$), $v_{\max} \approx 0{,}12c$. El concepto es elegante, pero la
+ingeniería es formidable: el colector debería tener miles de kilómetros de
+diámetro y, a bajas velocidades, las pérdidas por radiación de frenado del
+plasma recogido superan la ganancia de fusión. El estatorreactor es, por
+tanto, una aspiración a largo plazo más que un diseño inmediato.
+
+\begin{table}[ht]
+  \centering
+  \caption{Comparación de tecnologías de propulsión.
+           T.R.L.~=~nivel de madurez tecnológica ($1$\,=\,principios básicos,
+           $9$\,=\,vuelo demostrado).}
+  \label{tab:propulsion_es}
+  \begin{tabularx}{\textwidth}{l r r c X}
+    \toprule
+    Tecnología & $I_{\mathrm{sp}}$ (s) & Empuje (N) & T.R.L. & Mejor uso \\
+    \midrule
+    Química (LOX/LH$_2$)   & 450            & $\sim\!10^6$ & 9 & LEO, interplanetario \\
+    Queroseno/LOX          & 310            & $\sim\!10^7$ & 9 & Lanzamiento \\
+    Iónica (NSTAR)         & 3\,100         & $0{,}1$      & 9 & Crucero en espacio profundo \\
+    Efecto Hall (SPT-140)  & 1\,600         & 5{,}6        & 8 & Mantenimiento en GEO \\
+    Vela solar             & N/A            & $10^{-3}$    & 5 & Cerca del Sol, sondas pequeñas \\
+    Térmica nuclear        & 900            & $\sim\!10^5$ & 4 & Marte, tránsitos rápidos \\
+    Pulso nuclear (Orion)  & $10^4$--$10^6$ & $\sim\!10^7$ & 2 & Sistema Solar exterior, interestelar \\
+    Fusión (D-T)           & $10^6$         & $10^3$       & 2 & Precursor interestelar \\
+    Vela láser             & N/A            & variable     & 2 & Nanosondas a estrellas cercanas \\
+    Antimateria            & $\sim\!3\!\times\!10^7$ & variable & 1 & Interestelar pleno \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 % =============================================================================
 \section{Vuelo Espacial Relativista}
@@ -479,16 +598,100 @@ de Rindler) satisface:
   t(\tau)  &= \frac{c}{a}\sinh\frac{a\tau}{c},\\
   v(\tau)  &= c\tanh\frac{a\tau}{c},
 \end{align}
-donde $\tau$ es el tiempo propio del viajero. Para $a = g = \SI{9{,}81}{\meter\per\second\squared}$:
-\begin{itemize}[noitemsep]
-  \item Marte (0{,}52\,UA): tiempo de viaje $\approx 63$ días, igual para ambos sistemas.
-  \item Próxima Centauri (4{,}24 años-luz): tiempo propio $\approx 3{,}5$ años frente a $5{,}9$ años coordinados.
-  \item Centro Galáctico (26\,000 años-luz): el viajero envejece solo 21 años,
-    pero en la Tierra transcurren 52\,026 años.
-\end{itemize}
+donde $\tau$ es el tiempo propio del viajero. Para un viaje de ida de distancia
+coordenada $D$ (acelerando la primera mitad y frenando la segunda), el tiempo
+propio transcurrido es
+\begin{equation}
+  \tau = 2\,\frac{c}{a}\,\cosh^{-1}\!\!\left(\frac{aD}{2c^2}+1\right),
+  \label{eq:oneway_proper_es}
+\end{equation}
+mientras que el tiempo coordenado medido en la Tierra es
+\begin{equation}
+  t = 2\,\frac{c}{a}\sinh\!\left(\frac{a\tau}{2c}\right)
+    = 2\,\frac{c}{a}\sqrt{\left(\frac{aD}{2c^{2}}+1\right)^{2}-1}.
+  \label{eq:oneway_coord_es}
+\end{equation}
+Un viaje de ida y vuelta duplica ambos valores. Para
+$a = g = \SI{9{,}81}{\meter\per\second\squared}$ (aceleración cómoda de 1~\textit{g}):
+
+\begin{table}[ht]
+  \centering
+  \caption{Tiempos de viaje de ida con aceleración continua de 1~$g$
+   ($a=g$). El tiempo coordenado $t$ lo mide un observador en reposo en la
+   Tierra; $\tau$ es el tiempo propio del viajero. La ida y vuelta duplica
+   estos valores.}
+  \label{tab:rel_trips_es}
+  \begin{tabularx}{\textwidth}{X r r r}
+    \toprule
+    Destino & $D$ & $t$ (coord.) & $\tau$ (propio) \\
+    \midrule
+    Marte (medio)          & \SI{0{,}524}{\AU} & 2{,}1 días    & 2{,}1 días     \\
+    Júpiter                & \SI{5{,}2}{\AU}   & 6{,}5 días    & 6{,}5 días     \\
+    Plutón                 & \SI{39{,}5}{\AU}  & 18{,}0 días   & 18{,}0 días    \\
+    Próxima Centauri       & \SI{4{,}24}{\ly}  & 5{,}9 años    & 3{,}5 años     \\
+    Centro Galáctico       & \SI{26000}{\ly}   & 26\,000 años  & 19{,}8 años    \\
+    Galaxia de Andrómeda   & \SI{2{,}5e6}{\ly} & 2{,}5 millones de años & 28{,}6 años \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+El efecto de dilatación temporal es profundo. Un viaje tripulado de ida a
+Próxima Centauri a 1~$g$ dura solo 3{,}5 años de tiempo propio, mientras en la
+Tierra transcurren 5{,}9 años; la ida y vuelta envejece a la tripulación 7{,}1
+años y a la Tierra 11{,}7 años. Un viaje al Centro Galáctico solo haría
+envejecer a la tripulación 39{,}8 años --- pero en casa transcurrirían más de
+52\,000 años. El universo no es solo navegable: a 1~$g$ es, para el viajero,
+sorprendentemente pequeño.
+
+\subsection{Requisitos Energéticos}
+
+La energía cinética comunicada a la nave (aproximación no relativista para
+$\beta \ll 1$) es $K = \tfrac{1}{2} m_f \beta_f^2 c^2$. A velocidades
+relativistas, la energía total necesaria es
+\begin{equation}
+  E_{\mathrm{cin}} = (\gamma_f - 1)\,m_f\,c^2.
+  \label{eq:kinetic_rel_es}
+\end{equation}
+Para acelerar una carga útil de 1000 toneladas ($m_f = \SI{e6}{\kilo\gram}$)
+hasta $\beta = 0{,}2$, con $\gamma_f = (1-0{,}04)^{-1/2} \approx 1{,}0206$,
+\begin{equation*}
+  E = 0{,}0206 \times 10^6 \times (2{,}998\times10^{8})^2
+    \approx \SI{1{,}85e21}{\joule} \approx \SI{5{,}1e5}{\tera\watt\hour}.
+\end{equation*}
+El consumo mundial total de energía primaria es de unos
+\SI{6{,}2e20}{\joule} al año, de modo que acelerar una sola carga útil de 1000
+toneladas hasta $0{,}2c$ consumiría aproximadamente tres años del suministro
+energético mundial actual. Se requerirían reactores avanzados de fusión o de
+antimateria capaces de potencias sostenidas de $10^{17}$--$10^{19}$\,W ---
+plenamente dentro del alcance de una civilización de Tipo~II de Kardashev
+(sección~\ref{sec:kardashev_es}).
+
+\subsection{Polvo, Radiación y Blindaje Interestelares}
+
+A velocidades $\beta \sim 0{,}2$--$0{,}9$ el medio interestelar ---aunque es un
+vacío mejor que el que cualquier laboratorio terrestre pueda producir, con una
+densidad media del orden de un átomo por centímetro cúbico--- se convierte en
+un riesgo de ingeniería. Un grano de polvo de masa en reposo $m_g$ alcanzado de
+frente libera una energía cinética
+\begin{equation}
+  E_g = (\gamma - 1)\,m_g\,c^2,
+  \label{eq:dust_impact_es}
+\end{equation}
+de modo que un grano de \SI{e-12}{\kilo\gram} (una partícula de escala
+micrométrica) entrega unos \SI{1{,}9e3}{\joule} a $\beta = 0{,}2$ y
+\SI{1{,}2e5}{\joule} a $\beta = 0{,}9$ --- comparable a la energía de salida de
+un proyectil de artillería pesada. La densidad espacial de granos es baja, pero
+el volumen barrido a lo largo de un viaje de años-luz es tan grande que un
+escudo frontal delgado, o un deflector magnético/plasmático, es obligatorio. El
+hidrógeno interestelar por sí mismo causa erosión continua y, a las mayores
+velocidades, radiación penetrante procedente de productos de espalación.
+Cualquier diseño creíble de una nave estelar relativista debe tratar el
+blindaje y la evitación de colisiones como restricciones de primer orden, no
+como detalles secundarios \citep{Dyson1968}.
 
 % =============================================================================
 \section{La Población de Civilizaciones: Un Argumento Estadístico}
+\label{sec:civilizations_es}
 % =============================================================================
 
 \subsection{La Ecuación de Drake}
@@ -502,6 +705,31 @@ donde $R_*$ es la tasa de formación estelar, $f_p$ la fracción de estrellas
 con planetas, $n_e$ el número medio de planetas habitables por sistema, $f_l$
 la fracción con vida, $f_i$ la fracción con inteligencia, $f_c$ con tecnología
 detectable, y $L$ la longevidad media de la civilización.
+
+La tabla~\ref{tab:drake_es} resume las estimaciones actuales de cada factor.
+
+\begin{table}[ht]
+  \centering
+  \caption{Parámetros de la ecuación de Drake: estimaciones conservadora,
+    optimista y mejor actual. El valor resultante de $N$ abarca más de once
+    órdenes de magnitud.}
+  \label{tab:drake_es}
+  \begin{tabularx}{\textwidth}{X r r r}
+    \toprule
+    Parámetro & Conservadora & Optimista & Mejor estimación \\
+    \midrule
+    $R_*$ (año$^{-1}$) & 1    & 3          & 3    \\
+    $f_p$              & 0{,}5  & 1{,}0        & 0{,}9  \\
+    $n_e$              & 0{,}01 & 1{,}0        & 0{,}4  \\
+    $f_l$              & $10^{-6}$ & 1{,}0  & 0{,}1  \\
+    $f_i$              & $10^{-6}$ & 1{,}0  & 0{,}01 \\
+    $f_c$              & 0{,}01 & 0{,}5        & 0{,}1  \\
+    $L$ (años)         & 100  & $10^9$     & $10^4$ \\
+    \midrule
+    $N$       & $\sim 10^{-10}$ & $\sim 10^8$ & $\sim 1200$ \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
 
 Con estimaciones actuales: desde $N \approx 0$ (pesimista) hasta $N \sim 10^8$
 (optimista), con un valor central razonable de $N \sim 1200$.
@@ -530,6 +758,7 @@ Las resoluciones principales se agrupan en:
 \end{enumerate}
 
 \subsection{La Escala de Kardashev}
+\label{sec:kardashev_es}
 
 Las civilizaciones se clasifican por su consumo de energía:
 \begin{itemize}[noitemsep]
@@ -604,6 +833,21 @@ Las constantes universales adimensionales más importantes son:
   \qquad
   \mu = \frac{m_p}{m_e} \approx 1836{,}15.
 \end{equation}
+Codificar estos valores sirve como ``contraseña'' que demuestra que el emisor
+comparte la misma física.
+
+\subsection{Codificación Bidimensional en Píxeles}
+
+Si el número total de bits es $N = p \times q$ (con $p$ y $q$ primos
+distintos), el receptor puede organizarlos en una rejilla $p \times q$ y, por
+la unicidad de la factorización en primos, reconstruir la imagen. El mensaje de
+Arecibo de 1974 utilizó exactamente esta técnica: $1679 = 73 \times 23$ bits,
+que codifican una imagen de $73 \times 23$ píxeles con el Sistema Solar, la
+estructura del ADN y una figura humana.
+
+Si la longitud del mensaje es $N = p_1 \times p_2 \times p_3$ (tres primos
+distintos), se implica una estructura de datos tridimensional: una extensión
+poderosa para transmitir secuencias de imágenes o tablas matemáticas.
 
 % =============================================================================
 \section[Estableciendo Relaciones Interestelares: Diplomacia a Través del Vacío]{Estableciendo Relaciones Interestelares:\\Diplomacia a Través del Vacío}
@@ -668,6 +912,18 @@ menos:
 La capacidad de cómputo de una civilización escala con su presupuesto
 energético. La transición de Kardashev I a II a III corresponde a saltos de
 $\sim 10^{10}$ en capacidad computacional.
+
+\subsection{Trayectorias Civilizatorias}
+
+Si las civilizaciones alcanzan de forma fiable el Tipo~II (con unos
+$\sim 10^{10}$ años de evolución estelar disponibles), la Galaxia ha tenido
+tiempo de sobra para ser colonizada varias veces. El hecho de que no lo
+esté ---o de que no lo parezca--- es, o bien la evidencia más fuerte a favor de
+un Gran Filtro aún por delante, o bien un indicio de que las civilizaciones en
+expansión convergen hacia configuraciones estables de baja huella (la
+\emph{hipótesis de la trascendencia}: la inteligencia avanzada se mueve hacia
+dentro, hacia una complejidad y miniaturización crecientes, en lugar de hacia
+fuera, hacia la expansión territorial).
 
 \subsection{La Perspectiva a Largo Plazo}
 
@@ -742,6 +998,7 @@ $c\,\atanh(\beta_f)$, reproduciendo la ecuación del cohete relativista.
   Luminosidad solar & $L_\odot = \SI{3{,}828e26}{\watt}$ \\
   Unidad astronómica & $\SI{1}{\AU} = \SI{1{,}496e11}{\meter}$ \\
   Año-luz & $\SI{1}{\ly} = \SI{9{,}461e15}{\meter}$ \\
+  Constante de Hubble & $H_0 = 67{,}4$\,km\,s$^{-1}$\,Mpc$^{-1}$ \\
   \bottomrule
 \end{tabular}
 

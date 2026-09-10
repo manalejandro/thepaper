@@ -139,6 +139,9 @@ The paper derives or cites, from first principles, the following key equations:
 | Lorentz factor | $\gamma = (1-\beta^2)^{-1/2}$ | §6 |
 | Relativistic rocket | $(m_0/m_f) = [(1+\beta)/(1-\beta)]^{c/2v_e}$ | §6 |
 | Rindler trajectory | $x(\tau), t(\tau), v(\tau)$ | §6 |
+| One-way relativistic transit | $\tau = 2(c/a)\cosh^{-1}(aD/2c^2+1)$ | §6 |
+| Dust-grain impact energy | $E_g = (\gamma-1)m_g c^2$ | §6 |
+| Ramjet terminal speed | $v_{\max} \approx c\sqrt{2\eta_f\varepsilon}$ | §5 |
 | Drake equation | $N = R_* f_p n_e f_l f_i f_c L$ | §7 |
 | Kardashev continuous | $K = (\log_{10} P_W - 6)/10$ | §7 |
 | Friis transmission | $P_r = P_t G_t G_r (\lambda/4\pi d)^2$ | §8 |
